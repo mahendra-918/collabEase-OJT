@@ -44,12 +44,16 @@ body, .dashboard, .main-content {
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease;
   z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
 .sidebar-header {
   padding: 0 32px 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
 }
 
 .sidebar-header h2 {
@@ -124,6 +128,20 @@ body, .dashboard, .main-content {
   width: 20px;
   font-size: 1.1rem;
   text-align: center;
+}
+
+.nav-item.logout-btn {
+  color: #e74a3b;
+}
+
+.nav-item.logout-btn:hover {
+  background: rgba(231, 74, 59, 0.1);
+  color: #e74a3b;
+}
+
+.nav-item.logout-btn.active {
+  background: rgba(231, 74, 59, 0.15);
+  color: #e74a3b;
 }
 
 /* Dashboard Layout */
@@ -736,6 +754,10 @@ a.dropdown-link {
   .main-content {
     padding: 20px;
   }
+  
+  .dashboard-main {
+    margin-left: 70px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -760,6 +782,15 @@ a.dropdown-link {
   .main-content {
     padding: 16px;
   }
+  
+  .sidebar {
+    width: 0;
+    padding: 0;
+  }
+  
+  .dashboard-main {
+    margin-left: 0;
+  }
 }
 
 /* Add to existing styles */
@@ -769,6 +800,7 @@ a.dropdown-link {
   padding: 30px 40px;
   overflow-y: auto;
   background: #f8f9fa;
+  margin-left: 260px;
 }
 
 /* Activity Item Styling */

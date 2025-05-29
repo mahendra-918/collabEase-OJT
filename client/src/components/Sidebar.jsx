@@ -1,8 +1,20 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from 'firebase/auth';
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/signin');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const sections = [
     {
@@ -16,8 +28,20 @@ function Sidebar() {
     {
       title: "Management",
       items: [
-        { path: '/calendar', icon: 'fas fa-calendar', label: 'Calendar' },
         { path: '/settings', icon: 'fas fa-cog', label: 'Settings' }
+      ]
+    },
+    {
+      title: "User",
+      items: [
+        { path: '/profile', icon: 'fas fa-user', label: 'Profile' },
+        { 
+          path: '#', 
+          icon: 'fas fa-sign-out-alt', 
+          label: 'Logout', 
+          className: 'logout-btn',
+          onClick: handleLogout
+        }
       ]
     }
   ];
@@ -35,7 +59,8 @@ function Sidebar() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`nav-item${location.pathname === item.path ? ' active' : ''}`}
+                className={`nav-item${location.pathname === item.path ? ' active' : ''} ${item.className || ''}`}
+                onClick={item.onClick}
               >
                 <i className={item.icon}></i>
                 <span>{item.label}</span>
