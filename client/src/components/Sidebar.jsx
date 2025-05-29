@@ -1,8 +1,21 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 
-function Sidebar() {
+function Sidebar({ setUser }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Clear user data
+      setUser(null);
+      // Navigate to login page
+      navigate('/login', { replace: true });
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
   const sections = [
     {
@@ -16,14 +29,15 @@ function Sidebar() {
     {
       title: "Management",
       items: [
-        { path: '/calendar', icon: 'fas fa-calendar', label: 'Calendar' },
-        { path: '/settings', icon: 'fas fa-cog', label: 'Settings' }
+        { path: '/settings', icon: 'fas fa-cog', label: 'Settings' },
+        { path: '/profile', icon: 'fas fa-user', label: 'Profile', onClick: () => navigate('/profile') },
+        { path: '#', icon: 'fas fa-sign-out-alt', label: 'Logout', onClick: handleLogout }
       ]
     }
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar fixed">
       <div className="sidebar-header">
         <h2>CollabEase</h2>
       </div>
@@ -36,6 +50,7 @@ function Sidebar() {
                 key={item.path}
                 to={item.path}
                 className={`nav-item${location.pathname === item.path ? ' active' : ''}`}
+                onClick={item.onClick}
               >
                 <i className={item.icon}></i>
                 <span>{item.label}</span>

@@ -216,33 +216,17 @@ function Dashboard({ user, setUser }) {
 
   return (
     <div className="dashboard">
-      <Sidebar />
+      <Sidebar setUser={setUser} />
       <div className="dashboard-main">
         <div className="welcome-message">
           <div>
             <h2>Welcome back, {user?.displayName || user?.email || "User"}!</h2>
             <p>Here's what's happening in your projects today.</p>
-            <button 
-              onClick={() => navigate('/profile')} 
-              style={{ 
-                padding: '8px 12px', 
-                background: '#fff', 
-                color: '#4e73df', 
-                border: 'none', 
-                borderRadius: '4px', 
-                cursor: 'pointer',
-                marginTop: '10px',
-                fontWeight: '600'
-              }}
-            >
-              Go to Profile Page
-            </button>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <div style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.2)', color: 'white', borderRadius: '4px', fontSize: '14px' }}>
               Firebase Auth: {user ? '✓ Connected' : '✗ Not connected'}
             </div>
-            <LogoutButton setUser={setUser} />
           </div>
         </div>
 
@@ -291,7 +275,20 @@ function Dashboard({ user, setUser }) {
               )}
             </div>
             <div className="profile-container">
-              <button className="icon-button profile-btn" onClick={handleProfileClick} title="Profile">
+              <button 
+                className="icon-button profile-btn" 
+                onClick={handleProfileClick} 
+                title="Profile"
+                style={{ 
+                  width: '40px', 
+                  height: '40px', 
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  padding: 0,
+                  border: '2px solid #4e73df',
+                  background: '#fff'
+                }}
+              >
                 {userPhoto ? (
                   <img src={userPhoto} alt="Profile" className="profile-image" />
                 ) : (
@@ -299,7 +296,18 @@ function Dashboard({ user, setUser }) {
                 )}
               </button>
               {showProfile && (
-                <div className="profile-dropdown">
+                <div className="profile-dropdown" style={{ 
+                  position: 'absolute',
+                  top: '45px',
+                  right: '0',
+                  width: '280px',
+                  background: 'white',
+                  borderRadius: '12px',
+                  boxShadow: '0 6px 24px rgba(0, 0, 0, 0.15)',
+                  zIndex: 110,
+                  overflow: 'hidden',
+                  animation: 'fadeIn 0.2s ease'
+                }}>
                   <div className="profile-info">
                     {userPhoto ? (
                       <img src={userPhoto} alt="Profile" className="profile-image-large" />

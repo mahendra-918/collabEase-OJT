@@ -46,6 +46,14 @@ body, .dashboard, .main-content {
   z-index: 100;
 }
 
+.sidebar.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 .sidebar-header {
   padding: 0 32px 20px;
   margin-bottom: 20px;
@@ -132,6 +140,15 @@ body, .dashboard, .main-content {
   padding: 30px 40px;
   overflow-y: auto;
   background: #f8f9fa;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 30px 40px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  margin-left: 260px;
+  min-height: 100vh;
 }
 
 /* Welcome Message */
@@ -510,6 +527,7 @@ body, .dashboard, .main-content {
   align-items: center;
   gap: 16px;
   position: relative;
+  margin-left: auto;
 }
 
 .notifications-container, .profile-container {
@@ -557,10 +575,26 @@ body, .dashboard, .main-content {
   font-weight: 600;
 }
 
+.profile-container {
+  position: relative;
+  z-index: 110;
+}
+
 .profile-btn {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
   overflow: hidden;
+  padding: 0;
+  border: 2px solid #4e73df;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-image {
@@ -581,15 +615,10 @@ body, .dashboard, .main-content {
   font-size: 1.1rem;
 }
 
-.profile-container {
-  position: relative;
-  z-index: 110;
-}
-
 .profile-dropdown {
   position: absolute;
   top: 45px;
-  right: -15px;
+  right: 0;
   width: 280px;
   background: white;
   border-radius: 12px;
@@ -607,6 +636,8 @@ body, .dashboard, .main-content {
 .profile-info {
   padding: 24px;
   text-align: center;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
 }
 
 .profile-image-large {
@@ -614,31 +645,36 @@ body, .dashboard, .main-content {
   height: 80px;
   border-radius: 50%;
   margin: 0 auto 16px;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile-initial-large {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: #4e73df;
-  color: white;
+  background: white;
+  color: #4e73df;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   font-weight: 600;
   margin: 0 auto 16px;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile-info h3 {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 4px;
+  color: white;
 }
 
 .profile-info p {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .dropdown-divider {
@@ -710,6 +746,14 @@ a.dropdown-link {
     padding: 16px 0;
   }
   
+  .sidebar.fixed {
+    width: 70px;
+  }
+  
+  .dashboard-main {
+    margin-left: 70px;
+  }
+  
   .sidebar-header {
     padding: 0 0 16px;
     display: flex;
@@ -739,6 +783,15 @@ a.dropdown-link {
 }
 
 @media (max-width: 600px) {
+  .sidebar.fixed {
+    width: 0;
+    transform: translateX(-100%);
+  }
+  
+  .dashboard-main {
+    margin-left: 0;
+  }
+  
   .dashboard-stats-pro {
     grid-template-columns: 1fr;
   }
