@@ -222,27 +222,11 @@ function Dashboard({ user, setUser }) {
           <div>
             <h2>Welcome back, {user?.displayName || user?.email || "User"}!</h2>
             <p>Here's what's happening in your projects today.</p>
-            <button 
-              onClick={() => navigate('/profile')} 
-              style={{ 
-                padding: '8px 12px', 
-                background: '#fff', 
-                color: '#4e73df', 
-                border: 'none', 
-                borderRadius: '4px', 
-                cursor: 'pointer',
-                marginTop: '10px',
-                fontWeight: '600'
-              }}
-            >
-              Go to Profile Page
-            </button>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <div style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.2)', color: 'white', borderRadius: '4px', fontSize: '14px' }}>
               Firebase Auth: {user ? '✓ Connected' : '✗ Not connected'}
             </div>
-            <LogoutButton setUser={setUser} />
           </div>
         </div>
 
