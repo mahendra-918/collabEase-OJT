@@ -1213,6 +1213,13 @@
   font-size: 0.875rem;
 }
 
+.note-text {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
 .delete-actions {
   display: flex;
   justify-content: center;

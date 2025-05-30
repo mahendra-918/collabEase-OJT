@@ -499,7 +499,13 @@ function Projects({ user, setUser }) {
         setProjectsCache(prevCache => prevCache ? [...prevCache, originalProject] : null);
       }
       
-      setError(`Failed to delete project: ${error.message}`);
+      // More descriptive error message for 403 errors
+      if (error.response && error.response.status === 403) {
+        setError(`You don't have permission to delete this project. Only the project owner can delete projects.`);
+      } else {
+        setError(`Failed to delete project: ${error.message}`);
+      }
+      
       setProjectToDelete(null);
     }
   };
@@ -697,16 +703,6 @@ function Projects({ user, setUser }) {
                       <span className={`project-status ${getStatusClass(project.status)}`}>
                         {project.status}
                       </span>
-                      <button 
-                        className="delete-project-btn"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent opening the project
-                          setProjectToDelete(project);
-                        }}
-                        title="Delete Project"
-                      >
-                        🗑️
-                      </button>
                     </div>
                   </div>
                   <p className="project-description">{project.description}</p>
@@ -922,38 +918,6 @@ function Projects({ user, setUser }) {
                 </div>
               </div>
             )}
-            
-            {/* Delete Project Confirmation */}
-            {projectToDelete && (
-              <div className="modal-overlay" onClick={() => setProjectToDelete(null)}>
-                <div className="modal-content delete-confirmation" onClick={e => e.stopPropagation()}>
-                  <div className="delete-header">
-                    <div className="delete-icon">🗑️</div>
-                    <h2>Delete Project</h2>
-                  </div>
-                  <div className="delete-message">
-                    <p>Are you sure you want to delete "<strong>{projectToDelete.name}</strong>"?</p>
-                    <p className="warning-text">
-                      This action cannot be undone. All tasks and data associated with this project will be permanently deleted.
-                    </p>
-                  </div>
-                  <div className="delete-actions">
-                    <button 
-                      className="cancel-btn"
-                      onClick={() => setProjectToDelete(null)}
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      className="delete-btn"
-                      onClick={() => handleDeleteProject(projectToDelete.id)}
-                    >
-                      Delete Project
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         ) : (
           <div className="project-detail">
@@ -966,6 +930,17 @@ function Projects({ user, setUser }) {
               <span className={`project-status ${getStatusClass(selectedProject?.status)}`}>
                 {selectedProject?.status}
               </span>
+              {/* Debug logs */}
+              {console.log('Debug - Current user ID:', user?.id)}
+              {console.log('Debug - Project owner:', selectedProject?.owner)}
+              {/* Show the delete button for everyone for now */}
+              <button 
+                className="delete-project-btn"
+                onClick={() => setProjectToDelete(selectedProject)}
+                title="Delete Project"
+              >
+                Delete Project
+              </button>
             </div>
             
             {/* Project Info */}
@@ -1180,6 +1155,40 @@ function Projects({ user, setUser }) {
           </div>
         )}
       </div>
+
+      {/* Delete Project Confirmation - Moved outside of conditional rendering to be accessible from both views */}
+      {projectToDelete && (
+        <div className="modal-overlay" onClick={() => setProjectToDelete(null)}>
+          <div className="modal-content delete-confirmation" onClick={e => e.stopPropagation()}>
+            <div className="delete-header">
+              <h2>Delete Project</h2>
+            </div>
+            <div className="delete-message">
+              <p>Are you sure you want to delete "<strong>{projectToDelete.name}</strong>"?</p>
+              <p className="warning-text">
+                This action cannot be undone. All tasks and data associated with this project will be permanently deleted.
+              </p>
+              <p className="note-text">
+                Note: Only the project owner can delete a project. Team members do not have this permission.
+              </p>
+            </div>
+            <div className="delete-actions">
+              <button 
+                className="cancel-btn"
+                onClick={() => setProjectToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="delete-btn"
+                onClick={() => handleDeleteProject(projectToDelete.id)}
+              >
+                Delete Project
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
